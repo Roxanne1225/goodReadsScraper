@@ -5,9 +5,10 @@ from dataCollection import DataCollection
 import os
 from dotenv import load_dotenv
 
+HEADERS = os.getenv('HEADERS')
 class AuthorScraper:
     def __init__(self, dataCollection): 
-        self.headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'}
+        self.headers = {'user-agent': HEADERS}
         self.dataCollection = dataCollection
         # TODO: remove drop after design
         # self.dataCollection.emptyDataCollection()
