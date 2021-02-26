@@ -3,14 +3,9 @@ from bs4 import BeautifulSoup
 import re
 
 class BookScraper:
-    def __init__(self, start_url, dataCollection, target_number): 
+    def __init__(self, dataCollection): 
         self.headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'}
-        TEMP_START_URL = "/Users/user/Desktop/testparser.htm"
-        self.start_url = TEMP_START_URL
         self.dataCollection = dataCollection
-        self.target_number = target_number
-        # TODO: remove drop after design
-        # self.dataCollection.emptyDataCollection()
         self.urlToExplore = set()
     
     def scrape_one_book(self, url):
@@ -97,7 +92,7 @@ class BookScraper:
         
         i = 0
         for i in range(target_number):
-            if(self.dataCollection.bookAlreadyExist(next_url)):
+            if(self.dataCollection.urlAlreadyExist(next_url)):
                 i -= 1
             else:
                 self.scrape_one_book(next_url)

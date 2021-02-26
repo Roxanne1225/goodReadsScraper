@@ -5,6 +5,7 @@ from bson.json_util import dumps, loads
 from dataCollection import DataCollection
 import json
 from bookScraper import BookScraper
+from authorScraper import AuthorScraper
 import os
 from dotenv import load_dotenv
 
@@ -49,20 +50,17 @@ def scrape(args):
     start_url = args.scrape[1]
     scrapeType = ""
     if(args.scrape[0] == "book"):
-        print(target_number)
-        # scrapeType = "book"
         dataCollection = DataCollection(MONGO_CONNECTION_STRING, "goodReads", "book")
-        bookScraper = BookScraper(start_url, dataCollection, target_number)
+        bookScraper = BookScraper(dataCollection)
         bookScraper.scrapeBooks(start_url, target_number)
-
     elif(args.scrape[0] == "author"):
-        scrapeType = "author"
+        dataCollection = DataCollection(MONGO_CONNECTION_STRING, "goodReads", "author")
+        authorScraper = AuthorScraper(dataCollection)
+        authorScraper.scrapeAuthors(start_url, target_number)
     else:
         print("Error: no collection named " + args.scrape[0] + ", please enter 'book' or 'author' ")
         return
 
-
-    print(args.scrape[0])
 
 
 def main(): 
