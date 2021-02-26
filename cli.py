@@ -46,7 +46,7 @@ def importJSON(args):
             datacollection.pushToCollection(entry)
 
 def scrape(args):
-    target_number = args.target_number[0]
+    target_number = int(args.scrape[2])
     start_url = args.scrape[1]
     scrapeType = ""
     if(args.scrape[0] == "book"):
@@ -68,11 +68,9 @@ def main():
 #choices=["book", "author"], 
     parser = argparse.ArgumentParser(description = "Web scraper for goodReads")
 
-    parser.add_argument("-s", "--scrape", type = str, nargs = 2, 
-                        metavar = ("book_or_author", "start_url"), default = None, 
-                        help = "scrape data") 
-    parser.add_argument("target_number", type=int, nargs = 1, help="number of books/authors to scrape")
-    
+    parser.add_argument("-s", "--scrape", type = str, nargs = 3, 
+                        metavar = ("book_or_author", "start_url", "target_number"), default = None, 
+                        help = "scrape data")     
 
     parser.add_argument("-e", "--export", type = str, nargs = 2, 
                         metavar = ('book_or_author','path'), default = None, 
@@ -90,8 +88,6 @@ def main():
         export(args)
     if args.importJSON != None:
         importJSON(args)
-
-
 
 
 
