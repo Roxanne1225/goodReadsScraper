@@ -91,9 +91,8 @@ class BookScraper:
         self.scrape_one_book(next_url)
         
         i = 0
-        for i in range(target_number):
-            if(self.dataCollection.urlAlreadyExist(next_url)):
-                i -= 1
-            else:
+        while i < target_number:
+            if(not self.dataCollection.urlAlreadyExist(next_url)):
                 self.scrape_one_book(next_url)
+                i+=1                
             next_url = self.urlToExplore.pop()
