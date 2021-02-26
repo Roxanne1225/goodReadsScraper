@@ -19,7 +19,7 @@ class DataCollection():
         # result = self.collection.update(bookData, bookData, upsert = True)
         # return result['nUpserted']
         if('url' in bookData):
-            if(not self.bookAlreadyExist(bookData['url'])):
+            if(not self.urlAlreadyExist(bookData['url'])):
                 self.collection.insert(bookData)
             # # self.collection.update(bookData, bookData, upsert=True)
 
@@ -30,7 +30,7 @@ class DataCollection():
         self.collection.remove({})
         # self.create_collection()
 
-    def bookAlreadyExist(self, url):
+    def urlAlreadyExist(self, url):
         query = {"url": url}
         return (self.collection.find(query).count() != 0)
     
