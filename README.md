@@ -3,8 +3,8 @@
 Roxanne Chen's Spring 2021 CS242 Course Assignment 2. A simple web scraper.
 
 ## Table of Contents
-- [Requirements](https://gitlab.engr.illinois.edu/pc7/sp21-cs242-assignment1/-/tree/assignment-1.0#requirements)
-- [Usage]
+- [Requirements](https://gitlab.engr.illinois.edu/pc7/sp21-cs242-assignment2/-/tree/assignment-2.0#requirements)
+- [Usage] (https://gitlab.engr.illinois.edu/pc7/sp21-cs242-assignment2/-/tree/assignment-2.0#command-line-interface-usage)
 
 ## Requirements
 Make sure you have the following installed in your device to run scraper.
