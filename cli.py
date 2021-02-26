@@ -34,7 +34,7 @@ def importJSON(args):
         return
     datacollection = DataCollection(MONGO_CONNECTION_STRING, 'goodReads', dataCollectionType)
 
-    with open('book_data.json') as file: 
+    with open(args.importJSON[1]) as file: 
         file_data = json.load(file) 
     print(file_data[0])
     for entry in file_data:
@@ -42,7 +42,6 @@ def importJSON(args):
         if("_id" in entry):
             del entry["_id"]
         if(not datacollection.documentAlreadyExist(entry)):
-            print("here")
             datacollection.pushToCollection(entry)
 
 def scrape(args):
@@ -61,6 +60,13 @@ def scrape(args):
         print("Error: no collection named " + args.scrape[0] + ", please enter 'book' or 'author' ")
         return
 
+def clearDatabase(args):
+    collection_name = args[0]
+    if(collection_name != "book" and collection_name != "author"):
+        print("Error: no collection named " + args[0] + ", please enter 'book' or 'author' ")
+        return
+    db = DataCollection(MONGO_CONNECTION_STRING, "goodReads", collection_name)
+    db.emptyDataCollection()
 
 
 def main(): 
@@ -79,6 +85,10 @@ def main():
                         metavar = ('book_or_author','path'), default = None, 
                         help = "import data from json") 
 
+    parser.add_argument("--clear", type = str, nargs = 1,
+                        metavar = ('book_or_author'), default = None, 
+                        help = "clear database") 
+
 
     args = parser.parse_args() 
       
@@ -88,6 +98,8 @@ def main():
         export(args)
     if args.importJSON != None:
         importJSON(args)
+    if args.clear != None:
+        clearDatabase(args.clear)
 
 
 
