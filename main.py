@@ -7,7 +7,7 @@ def main():
     c = "mongodb+srv://Roxanne1225:SanToria0515@cluster0.vgct4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
     dataCollection = DataCollection(c, "goodReads", "book")
     bookScraper = BookScraper(TEMP_START_URL, dataCollection, 1)
-    dataCollection.emptyDataCollection()
+    # dataCollection.emptyDataCollection()
     # bookScraper.scrape_one_book(TEMP_START_URL)
     bookScraper.scrapeBooks(TEMP_START_URL, 1)
     # test = {"hi":2}

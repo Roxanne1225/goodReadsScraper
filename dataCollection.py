@@ -16,10 +16,13 @@ class DataCollection():
         self.collection = self.db[self.collection_name]
 
     def pushToCollection(self, bookData):
-        if(not self.bookAlreadyExist(bookData['url'])):
-            self.collection.insert(bookData)
-        # self.collection.update(bookData, bookData, upsert=True)
-    
+        # result = self.collection.update(bookData, bookData, upsert = True)
+        # return result['nUpserted']
+        if('url' in bookData):
+            if(not self.bookAlreadyExist(bookData['url'])):
+                self.collection.insert(bookData)
+            # # self.collection.update(bookData, bookData, upsert=True)
+
     def getCollection(self):
         return self.collection
     
@@ -33,3 +36,6 @@ class DataCollection():
     
     def getAllEntry(self):
         return self.collection.find()
+
+    def documentAlreadyExist(self, document):
+        return (self.collection.find(document).count()!=0)
