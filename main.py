@@ -1,4 +1,5 @@
 import os 
+import sys
 import argparse 
 from pymongo import MongoClient 
 from bson.json_util import dumps, loads 
@@ -6,8 +7,8 @@ from dataCollection import DataCollection
 import json
 from bookScraper import BookScraper
 from authorScraper import AuthorScraper
-import os
 from dotenv import load_dotenv
+import re
 
 load_dotenv()
 MONGO_CONNECTION_STRING = os.getenv('MONGO_CONNECTION_STRING')
@@ -27,7 +28,6 @@ def export(args):
         file.write(json_data)
 
 def importJSON(args):
-    print("import")
     dataCollectionType = args.importJSON[0]
     if(dataCollectionType != 'book' and dataCollectionType != 'author'):
         print("Error: no collection named " + dataCollectionType + ", please enter 'book' or 'author' ")
@@ -49,10 +49,16 @@ def scrape(args):
     start_url = args.scrape[1]
     scrapeType = ""
     if(args.scrape[0] == "book"):
+        if(not re.search(r'([https://]?)www.goodreads.com/book/show/(.*)', start_url)):
+            print("Please provide a valid url pointing to a book in goodReads")
+            sys.exit(1)
         dataCollection = DataCollection(MONGO_CONNECTION_STRING, "goodReads", "book")
         bookScraper = BookScraper(dataCollection)
         bookScraper.scrapeBooks(start_url, target_number)
     elif(args.scrape[0] == "author"):
+        if(not re.search(r'([https://]?)www.goodreads.com/author/show/(.*)', start_url)):
+            print("Please provide a valid url pointing to an author in goodReads")
+            sys.exit(1)
         dataCollection = DataCollection(MONGO_CONNECTION_STRING, "goodReads", "author")
         authorScraper = AuthorScraper(dataCollection)
         authorScraper.scrapeAuthors(start_url, target_number)

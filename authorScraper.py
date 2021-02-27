@@ -20,11 +20,12 @@ class AuthorScraper:
         soupbody = soup.body
         books = []
         left_container = soupbody.find('div', attrs={'class':'leftContainer'})
-        table = left_container.find('tbody')
-
-        for subrow in table.find_all('tr'):
-            link = subrow.find('a', attrs={'class':'bookTitle'})['href']
-            books.append(link)
+        if(left_container):
+            table = left_container.find('tbody')
+            if(table):
+                for subrow in table.find_all('tr'):
+                    link = subrow.find('a', attrs={'class':'bookTitle'})['href']
+                    books.append(link)
         return books
     
     def getRelatedAuthors(self, related_author_url):
@@ -33,10 +34,11 @@ class AuthorScraper:
         soupbody = soup.body
         authors = []
         containers = soupbody.find_all('div', attrs={'data-react-class':'ReactComponents.SimilarAuthorsList'})
-        for container in containers:
-            for similar_author in container.find_all('div', attrs={'class':'listWithDividers__item'}):
-                link = similar_author.find('a')['href']
-                authors.append(link)
+        if(containers):
+            for container in containers:
+                for similar_author in container.find_all('div', attrs={'class':'listWithDividers__item'}):
+                    link = similar_author.find('a')['href']
+                    authors.append(link)
         return authors
 
     
@@ -56,8 +58,11 @@ class AuthorScraper:
 
         #  get author name
         container_of_name = soupbody.find('div', attrs={'class':'rightContainer'})
-        author_name = container_of_name.find('h1', attrs={'class':'authorName'}).find('span').text.strip()
-        authorData["author_name"] = author_name
+        if(container_of_name):
+            author_name_h1 = container_of_name.find('h1', attrs={'class':'authorName'})
+            if(author_name_h1):
+                author_name = author_name_h1.find('span').text.strip()
+                authorData["author_name"] = author_name
 
         # get author id
         reg = 'https://www.goodreads.com/author/show/([0-9]+)'
@@ -90,8 +95,9 @@ class AuthorScraper:
 
         # get author image
         imageTag = soupbody.find('img', attrs = {'alt':author_name})
-        imageSrc = imageTag['src']
-        authorData["authorImage"] = imageSrc
+        if(imageTag):
+            imageSrc = imageTag['src']
+            authorData["authorImage"] = imageSrc
 
         # get related authors
         related_authors_url = 'https://www.goodreads.com/author/similar/' + authorID

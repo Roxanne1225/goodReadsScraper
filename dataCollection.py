@@ -10,18 +10,11 @@ class DataCollection():
         self.db = self.client[self.database_name]
         self.collection = self.db[self.collection_name]
         # self.collection.create_index("bookID", unique=True)
-    
-    def create_collection(self):
-        self.db = self.client[self.database_name]
-        self.collection = self.db[self.collection_name]
 
     def pushToCollection(self, bookData):
-        # result = self.collection.update(bookData, bookData, upsert = True)
-        # return result['nUpserted']
         if('url' in bookData):
             if(not self.urlAlreadyExist(bookData['url'])):
                 self.collection.insert(bookData)
-            # # self.collection.update(bookData, bookData, upsert=True)
 
     def getCollection(self):
         return self.collection
@@ -32,10 +25,13 @@ class DataCollection():
 
     def urlAlreadyExist(self, url):
         query = {"url": url}
-        return (self.collection.find(query).count() != 0)
+        return ((self.collection.find(query).count()) != 0)
     
     def getAllEntry(self):
         return self.collection.find()
 
     def documentAlreadyExist(self, document):
         return (self.collection.find(document).count()!=0)
+    
+    def getSizeOfCollection(self):
+        return (self.collection.count_documents({}))
