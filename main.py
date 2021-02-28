@@ -73,6 +73,7 @@ def scrape(data_collection_type, start_url, target_number):
             sys.exit(1)
         if target_number > 200:
             print("Cannot scrape more than 200 books at once")
+            sys.exit(1)
         data_collection = DataCollection(MONGO_CONNECTION_STRING, "goodReads", "book")
         book_scraper = BookScraper(data_collection)
         book_scraper.scrapeBooks(start_url, target_number)
@@ -82,6 +83,7 @@ def scrape(data_collection_type, start_url, target_number):
             sys.exit(1)
         if target_number > 50:
             print("Cannot scrape more than 50 authors at once")
+            sys.exit(1)
         data_collection = DataCollection(MONGO_CONNECTION_STRING, "goodReads", "author")
         author_scraper = AuthorScraper(data_collection)
         author_scraper.scrapeAuthors(start_url, target_number)
