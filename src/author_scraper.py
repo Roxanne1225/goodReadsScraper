@@ -150,9 +150,9 @@ class AuthorScraper:
         self.scrape_one_author(next_url)
 
         i = 0
-        while i < target_number:
+        while i < target_number-1:
             if not self.data_collection.url_already_exist(next_url):
-                interval = random.randint(5, 15)
+                interval = random.randint(2, 12)
                 print("sleeping for " + str(interval) + " seconds")
                 time.sleep(interval)
                 self.scrape_one_author(next_url)
