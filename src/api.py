@@ -49,6 +49,12 @@ def get_author():
     args = request.args
     return get_data(args, author_data_collection)
 
+@app.route('/api/author', methods=['PUT'])
+def put_author():
+    args = request.args
+    author_data_collection.update_by_id(args['id'], args.to_dict())
+    return "success"
+
 @app.route('/api/search', methods=['GET'])
 def search():
     args = request.args
@@ -62,7 +68,37 @@ def search():
             entry['_id'] = str(entry['_id'])
     return list_to_dict(results)
 
+def post_data(data_collection, json_data):
+    for entry in json_data:
+        if "_id" in entry:
+            del entry["_id"]
+        print(entry)
+        data_collection.push_to_collection(entry)
 
+@app.route('/api/book', methods=['POST'])
+def post_one_book():
+    json_data = request.json
+    print(json_data)
+    post_data(book_data_collection, json_data)
+    return "success"
+
+@app.route('/api/books', methods=['POST'])
+def post_books():
+    json_data = request.json
+    post_data(book_data_collection, json_data)
+    return "success"
+
+@app.route('/api/author', methods=['POST'])
+def post_one_author():
+    json_data = request.json
+    post_data(author_data_collection, json_data)
+    return "success"
+
+@app.route('/api/authors', methods=['POST'])
+def post_authors():
+    json_data = request.json
+    post_data(author_data_collection, json_data)
+    return "success"
 
 
 @app.route('/')
