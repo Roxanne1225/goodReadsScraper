@@ -51,7 +51,7 @@ class BookScraper:
         # # get book id
         reg = 'https://www.goodreads.com/book/show/([0-9]+)'
         book_id = re.search(reg, url).group(1)
-        book_data["book_id"] = book_id
+        book_data["id"] = book_id
 
         # get book ISBN
         book_databox = soupbody.find('div', attrs={'id':'bookDataBox'})

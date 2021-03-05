@@ -101,7 +101,7 @@ class AuthorScraper:
         # get author id
         reg = 'https://www.goodreads.com/author/show/([0-9]+)'
         authorID = re.search(reg, url).group(1)
-        authorData["authorID"] = authorID
+        authorData["id"] = authorID
 
         # get author books
         book_list_url = 'https://www.goodreads.com/author/list/' + authorID
