@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, abort
 from dotenv import load_dotenv
 from dataCollection import DataCollection
+from query_parser import *
 
 load_dotenv()
 MONGO_CONNECTION_STRING = os.getenv('MONGO_CONNECTION_STRING')
@@ -41,6 +42,19 @@ def get_book():
 def get_author():
     args = request.args
     return get_data(args, author_data_collection)
+
+@app.route('/api/search', methods=['GET'])
+def search():
+    args = request.args
+    if(len(args)!= 1):
+        print("wrong number of arguments")
+    if 'q' not in args:
+        abort(400)
+    query = args['q']
+    results = list(eval_query(query))
+    for entry in results:
+            entry['_id'] = str(entry['_id'])
+    return list_to_dict(results)
 
 
 

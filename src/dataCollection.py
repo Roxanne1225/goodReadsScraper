@@ -86,3 +86,6 @@ class DataCollection():
             return self.collection.find_one({'book_id':id})
         if(self.collection_name == 'author'):
             return self.collection.find_one({'authorID':id})
+    
+    def find_by_query(self, query):
+        return self.collection.find(query)
