@@ -86,17 +86,40 @@ def construct_query(field, query):
             left_str = " ".join(query_list[:index])
             right_str = " ".join(query_list[index+1:])
             return evaluate_logical(operator, left_str, right_str, field)
+    # if query.find('"') != -1:
+    #     reg = '"(.*)"'
+    #     exact_value = re.search(reg, query).group(1)
+    #     return {field:exact_value}
+
+    # return {field : {'$regex': ".*" + query + ".*"}}
+    conditions = construct_condition(query)
+    return {field:conditions}
+
+def construct_condition(query):
     if query.find('"') != -1:
         reg = '"(.*)"'
         exact_value = re.search(reg, query).group(1)
-        return {field:exact_value}
+        return exact_value
+    
+    if query.find("<") != -1:
+        reg = '<(.*)'
+        exact_value = re.search(reg, query).group(1)
+        return {'$lt' : exact_value}
+    
+    if query.find(">") != -1:
+        reg = '>(.*)'
+        exact_value = re.search(reg, query).group(1)
+        return {'$gt' : exact_value}
 
-    return {field : {'$regex': ".*" + query + ".*"}}
+
+    return {'$regex': ".*" + query + ".*"}
 
 def evaluate_logical(operator, left_str, right_str, field):
     parsed_right = construct_query(field, right_str)
     if operator == NOT:
-        return {"$not" : parsed_right}
+        print("not")
+        # return {"$not" : parsed_right}
+        return {field : {"$not": construct_condition(right_str)}}
     parsed_left = construct_query(field, left_str)
     if operator == AND:
         return { "$and" : [parsed_left, parsed_right]}
