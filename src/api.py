@@ -24,7 +24,7 @@ def get_data(args, data_collection):
             entry['_id'] = str(entry['_id'])
         return list_to_dict(all_data)
     else:
-        if args['id']:
+        if 'id' in args:
             data_info = data_collection.find_by_id(args['id'])
             if(data_info is None):
                 abort(404)
@@ -37,6 +37,12 @@ def get_data(args, data_collection):
 def get_book():
     args = request.args
     return get_data(args, book_data_collection)
+
+@app.route('/api/book', methods=['PUT'])
+def put_book():
+    args = request.args
+    book_data_collection.update_by_id(args['id'], args.to_dict())
+    return "success"
 
 @app.route('/api/author', methods=['GET'])
 def get_author():

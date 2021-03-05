@@ -69,13 +69,11 @@ def colon_operator(left_str, right_str):
         if data_collection == 'book':
             return book_data_collection.find_by_query(conditions)
         else:
-            print(conditions)
             return author_data_collection.find_by_query(conditions)
 
         # return data_collection.find_all(conditions)
 
 def construct_query(field, query):
-    print("query is: " + query)
     if len(query) == 0:
         print("empty query")
         return ""
@@ -117,8 +115,6 @@ def construct_condition(query):
 def evaluate_logical(operator, left_str, right_str, field):
     parsed_right = construct_query(field, right_str)
     if operator == NOT:
-        print("not")
-        # return {"$not" : parsed_right}
         return {field : {"$not": construct_condition(right_str)}}
     parsed_left = construct_query(field, left_str)
     if operator == AND:

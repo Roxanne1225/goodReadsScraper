@@ -86,6 +86,12 @@ class DataCollection():
             return self.collection.find_one({'book_id':id})
         if(self.collection_name == 'author'):
             return self.collection.find_one({'authorID':id})
+
+    def update_by_id(self, id, fields_to_update):
+        if(self.collection_name == 'book'):
+            return self.collection.update_one({'book_id':id}, {'$set':fields_to_update})
+        if(self.collection_name == 'author'):
+            return self.collection.update_one({'authorID':id}, {'$set':fields_to_update})
     
     def find_by_query(self, query):
         return self.collection.find(query)
