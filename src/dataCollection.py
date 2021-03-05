@@ -80,3 +80,9 @@ class DataCollection():
             int : The size of database
         """
         return self.collection.count_documents({})
+
+    def find_by_id(self, id):
+        if(self.collection_name == 'book'):
+            return self.collection.find_one({'book_id':id})
+        if(self.collection_name == 'author'):
+            return self.collection.find_one({'authorID':id})
