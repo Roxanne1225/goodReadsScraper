@@ -3,6 +3,9 @@ from flask import Flask, request, abort
 from dotenv import load_dotenv
 from dataCollection import DataCollection
 from query_parser import *
+from book_scraper import BookScraper
+from author_scraper import AuthorScraper
+
 
 load_dotenv()
 MONGO_CONNECTION_STRING = os.getenv('MONGO_CONNECTION_STRING')
@@ -100,6 +103,36 @@ def post_authors():
     post_data(author_data_collection, json_data)
     return "success"
 
+def build_start_url(arg_type, start_id):
+    return "https://www.goodreads.com/" + arg_type + "/show/" + start_id
+
+@app.route('/api/scrape', methods=['POST'])
+def scrape():
+    args = request.args
+    if 'type' in args and 'start_id' in args and 'number' in args:
+        if(args['type'] == 'book'):
+            book_scraper = BookScraper(book_data_collection)
+            book_scraper.scrapeBooks(build_start_url(args['type'], args['start_id']), int(args['number']))
+        if(args['type'] == 'author'):
+            author_scraper = AuthorScraper(author_data_collection)
+            author_scraper.scrapeAuthors(build_start_url(args['type'], args['start_id']),int(args['number']))
+    return "success"
+
+@app.route('/api/book', methods=['DELETE'])
+def delete_book():
+    args = request.args
+    if 'id' not in args:
+        abort(404, "Please specify the id of the item you want to delete")
+    book_data_collection.delete_by_id(args['id'])
+    return "success"
+
+@app.route('/api/author', methods=['DELETE'])
+def delete_author():
+    args = request.args
+    if 'id' not in args:
+        abort(404, "Please specify the id of the item you want to delete")
+    author_data_collection.delete_by_id(args['id'])
+    return "success"
 
 @app.route('/')
 def hello_world():

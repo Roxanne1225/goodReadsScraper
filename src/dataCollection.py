@@ -86,6 +86,9 @@ class DataCollection():
 
     def update_by_id(self, id, fields_to_update):
         return self.collection.update_one({'id':id}, {'$set':fields_to_update})
+
+    def delete_by_id(self, id):
+        self.collection.delete_one({'id':id})
     
     def find_by_query(self, query):
         return self.collection.find(query)
