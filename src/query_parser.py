@@ -33,20 +33,6 @@ AND = 'AND'
 OR = 'OR'
 NOT = 'NOT'
 logical_operators = [AND, OR, NOT]
-# def parse_query(query):
-#     query_list = query.split(" ")
-#     # if('AND' in query_list):
-#     for i in range(len(query_list)):
-#         if query_list[i] in logical_operators:
-#             left_str = " ".join(query_list[:i])
-#             right_str = " ".join(query_list[i+1:])
-
-
-# def parse_logical(left_str, right_str, operator):
-#     if operator == AND:
-#         return parse_query(left_str) and parse_query(right_str)
-#     elif operator == OR:
-#         return parse_query(left_str) or parse_query(right_str)
 
 def eval_query(query):
     if ':' not in query:
@@ -84,12 +70,7 @@ def construct_query(field, query):
             left_str = " ".join(query_list[:index])
             right_str = " ".join(query_list[index+1:])
             return evaluate_logical(operator, left_str, right_str, field)
-    # if query.find('"') != -1:
-    #     reg = '"(.*)"'
-    #     exact_value = re.search(reg, query).group(1)
-    #     return {field:exact_value}
 
-    # return {field : {'$regex': ".*" + query + ".*"}}
     conditions = construct_condition(query)
     return {field:conditions}
 

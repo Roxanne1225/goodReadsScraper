@@ -35,6 +35,10 @@ def get_data(args, data_collection):
             return list_to_dict(data_info)
         abort(400)
 
+@app.route('/api')
+def start():
+    return "success"
+
 # api/book?id={attr_value} Example: /book?id=3735293
 @app.route('/api/book', methods=['GET'])
 def get_book():
@@ -81,6 +85,7 @@ def post_data(data_collection, json_data):
 @app.route('/api/book', methods=['POST'])
 def post_one_book():
     json_data = request.json
+    print(json_data)
     post_data(book_data_collection, json_data)
     return "success"
 
