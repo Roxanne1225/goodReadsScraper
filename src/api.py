@@ -44,7 +44,7 @@ def get_book():
 @app.route('/api/book', methods=['PUT'])
 def put_book():
     args = request.args
-    book_data_collection.update_by_id(args['id'], args.to_dict())
+    book_data_collection.update_by_id(args['id'], request.get_json())
     return "success"
 
 @app.route('/api/author', methods=['GET'])
@@ -55,7 +55,7 @@ def get_author():
 @app.route('/api/author', methods=['PUT'])
 def put_author():
     args = request.args
-    author_data_collection.update_by_id(args['id'], args.to_dict())
+    author_data_collection.update_by_id(args['id'], request.get_json())
     return "success"
 
 @app.route('/api/search', methods=['GET'])
@@ -81,7 +81,6 @@ def post_data(data_collection, json_data):
 @app.route('/api/book', methods=['POST'])
 def post_one_book():
     json_data = request.json
-    print(json_data)
     post_data(book_data_collection, json_data)
     return "success"
 
