@@ -35,9 +35,6 @@ def get_data(args, data_collection):
             return list_to_dict(data_info)
         abort(400)
 
-@app.route('/')
-def serve():
-    return render_template("index.html", token="token")
 
 @app.route('/api')
 def start():
