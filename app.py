@@ -10,8 +10,6 @@ from author_scraper import AuthorScraper
 load_dotenv()
 MONGO_CONNECTION_STRING = os.getenv('MONGO_CONNECTION_STRING')
 
-def create_app():
-
 app = Flask(__name__)
 
 book_data_collection = DataCollection(MONGO_CONNECTION_STRING, "goodReads", 'book')
