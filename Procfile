@@ -1,1 +1,1 @@
-web: python3 api.py $PORT
+web: gunicorn app:app
