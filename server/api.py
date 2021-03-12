@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template
 from dotenv import load_dotenv
 from dataCollection import DataCollection
 from query_parser import *
@@ -34,6 +34,10 @@ def get_data(args, data_collection):
             data_info['_id'] = str(data_info['_id'])
             return list_to_dict(data_info)
         abort(400)
+
+@app.route('/')
+def serve():
+    return render_template("index.html", token="token")
 
 @app.route('/api')
 def start():

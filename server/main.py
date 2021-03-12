@@ -112,7 +112,8 @@ def clear_database(data_collection_type):
 def get_by_id(data_collection_type, id, path):
     response = requests.get(BASE_URL + data_collection_type+ "?id="+id)
     if(response.status_code != 200):
-        print("there was an error")
+        print("there was an error: " + str(response.status_code))
+        sys.exit(1)
     json_data = dumps(response.json(), indent = 2)
 
     with open(path, 'w') as file:
